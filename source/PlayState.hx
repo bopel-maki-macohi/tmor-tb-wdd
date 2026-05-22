@@ -37,19 +37,28 @@ class PlayState extends FlxState
 
 	var time:Float = 0;
 
+	var timeSinceLastMoved:Float = 0;
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		time += elapsed;
+		timeSinceLastMoved += elapsed;
 
 		opponent.x = (256 * 2) + Math.sin(time * 2.5) * 360;
 		opponent.y = (256 * 1) + Math.cos(time * 2.5) * 90;
 
 		if (FlxG.keys.anyPressed([A, LEFT]))
+		{
 			player.x -= player.width * .1;
+			timeSinceLastMoved = 0;
+		}
 		if (FlxG.keys.anyPressed([D, RIGHT]))
+		{
 			player.x += player.width * .1;
+			timeSinceLastMoved = 0;
+		}
 
 		if (player.x < playerScreenOffset)
 			player.x = playerScreenOffset;
