@@ -13,12 +13,17 @@ class PlayState extends FlxState
 
 	var bullets:FlxSpriteGroup;
 
+	var opponent:FlxSprite;
+
 	override public function create()
 	{
 		super.create();
 
 		bullets = new FlxSpriteGroup();
 		add(bullets);
+
+		opponent = new FlxSprite().makeGraphic(64, 64, FlxColor.YELLOW);
+		add(opponent);
 
 		player = new FlxSprite().makeGraphic(128, 128, FlxColor.RED);
 		add(player);
@@ -30,9 +35,16 @@ class PlayState extends FlxState
 		playerScreenOffset = player.width * .25;
 	}
 
+	var time:Float = 0;
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		time += elapsed;
+
+		opponent.x = (256 * 2) + Math.sin(time * 2.5) * 360;
+		opponent.y = (256 * 1) + Math.cos(time * 2.5) * 90;
 
 		if (FlxG.keys.anyPressed([A, LEFT]))
 			player.x -= player.width * .1;
